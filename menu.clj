@@ -32,18 +32,20 @@
     (flush)
     (read-line)))
 
+;; Handle option 1
 (defn option1 []
   (println "** Customer Table **")
   (doseq [k (keys customers)]
     (println k ":" (mapv #(str "\"" % "\"") (vals (get customers k))))))
 
+;; Handle option2 
 (defn option2
   []
   (println "** Product Table **")
   (doseq [k (keys products)]
     (println k ":" (mapv #(str "\"" % "\"") (vals (get products k))))))
 
-
+;; Handle option 3
 (defn option3
   []
   (println "** Sales Table **")
@@ -55,6 +57,8 @@
 
     (println k ":" saleInfo)))
 
+;; Helper function for option 4
+;; Returns the ID of the client if the client was found in the database, else it returns nil 
 (defn findCustomer [name n]
   (if (contains? customers n)
     (if (= (get-in customers [n :name]) name)
@@ -62,6 +66,8 @@
       (recur name (inc n)))
     nil))
 
+;; Help function for option 4
+;; Computes the total expenses of the client with ID cust-id
 (defn compute-total-sales [cust-id]
   (let [customer-sales
         (for [v (vals sales)
@@ -72,6 +78,7 @@
             (* price count)))]
     (reduce + customer-sales)))
 
+;; Handle option 4
 (defn option4
   []
   (print "\nPlease enter a customer name => ")
@@ -82,6 +89,8 @@
       (println name":"(compute-total-sales cust-ID))
       (println "The client is not in the database"))))
 
+;; Helper function for option 5
+;; Returns the ID of the item if it was found in the data base, else it returns nil
 (defn findProduct [item n]
   (if (contains? products n)
     (if (= (get-in products [n :description]) item)
@@ -89,6 +98,8 @@
       (recur item (inc n)))
     nil))
 
+;; Helper function for option 5
+;; computes the total count of sellings of the item with ID product-id
 (defn compute-total-count [product-id]
   (let [total-count
         (for [v (vals sales)
@@ -96,6 +107,7 @@
           (get v :count))]
     (reduce + total-count)))
 
+;; Handle option 5
 (defn option5
   []
   (print "\nPlease enter a product type => ")
@@ -139,11 +151,3 @@
         (flush) ; 
         (read-line) ; clear screen
         (recur)))))
-
-
-
-
-; ------------------------------
-; Run the program. Note that your assignment will run from app.clj
-; and then call the code in this file
-(menu)
