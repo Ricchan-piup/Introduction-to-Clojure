@@ -62,25 +62,24 @@
       (recur name (inc n)))
     nil))
 
-(defn computeTotalSales [cust-ID]
-  (def customerSales [])
-  (doseq [v (vals sales)]
-    (if = (get v :cust-id) cust-ID)
-    (let [product (get products (get v :prod-id))
-          price (get product :cost)
-          count (get sales :count)]
-      (conj customerSales (* price count)))
-    nil)
-  reduce + customerSales)
+(defn compute-total-sales [cust-id]
+  (let [customer-sales
+        (for [v (vals sales)
+              :when (= (:cust-id v) cust-id)]
+          (let [product (products (:prod-id v))
+                price   (:cost product)
+                count   (:count v)]
+            (* price count)))]
+    (reduce + 0 customer-sales)))
 
 (defn option4
   []
   (print "\nPlease enter a customer name => ")
   (flush)
   (let [name (read-line)]
-    (def cust-ID (findCustomer name 1))
-    (if (cust-ID)
-      (println (computeTotalSales cust-ID))
+    (def cust-ID (findCustomer name 1)) 
+    (if (not (= cust-ID nil)) 
+      (println name":"(compute-total-sales cust-ID))
       (println "The client is not in the database"))))
 
 (defn option5
