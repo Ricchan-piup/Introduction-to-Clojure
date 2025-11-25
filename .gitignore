@@ -1,3 +1,14 @@
-.clj-kondo/
-.cpcache/
-.lsp/
+./clj-kondo/
+./cpcache/
+./lsp/
+.clj-kondo/.cache/v1/clj/a3.transit.json
+.clj-kondo/.cache/v1/clj/db.transit.json
+.clj-kondo/.cache/v1/clj/db.transit.json
+/.clj-kondo/.cache/v1/clj
+/.clj-kondo
+*.basis
+*.cp
+*.json
+*.json
+*.edn
+*.cp
