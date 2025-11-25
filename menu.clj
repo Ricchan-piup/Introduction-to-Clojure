@@ -70,7 +70,7 @@
                 price   (:cost product)
                 count   (:count v)]
             (* price count)))]
-    (reduce + 0 customer-sales)))
+    (reduce + customer-sales)))
 
 (defn option4
   []
@@ -82,13 +82,29 @@
       (println name":"(compute-total-sales cust-ID))
       (println "The client is not in the database"))))
 
+(defn findProduct [item n]
+  (if (contains? products n)
+    (if (= (get-in products [n :description]) item)
+      n
+      (recur item (inc n)))
+    nil))
+
+(defn compute-total-count [product-id]
+  (let [total-count
+        (for [v (vals sales)
+              :when (= (:prod-id v) product-id)]
+          (get v :count))]
+    (reduce + total-count)))
+
 (defn option5
   []
   (print "\nPlease enter a product type => ")
   (flush)
   (let [item (read-line)]
-    (println "now display the total sales count for this product")))
-
+    (def product-ID (findProduct item 1))
+  (if (not (= product-ID nil))
+    (println item":"(compute-total-count product-ID))
+    (println "The item is not in the database"))))
 
 
 ; If the menu selection is valid, call the relevant function to 
